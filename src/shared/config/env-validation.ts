@@ -3,7 +3,7 @@ import { z } from 'zod';
 import * as process from 'process';
 import { Logger } from '@nestjs/common';
 
-const userName = 'u766359255_rod';
+const userName = 'root';
 
 export const envSchema = z.object({
   HOST: z.string().trim().default('0.0.0.0'),
@@ -11,11 +11,12 @@ export const envSchema = z.object({
     .string()
     .default('5000')
     .transform((value) => Number(value)),
-  DB_HOST: z.string(),
+  DB_HOST: z.string().default('127.0.0.1'),
   DB_PORT: z.string().default('3306'),
   DB_USER: z.string().default(userName),
   DB_PWD: z.string(),
-  DB_NAME: z.string().default(userName),
+  DB_NAME: z.string().default('prantinhas_db'),
+  DATABASE_URL: z.string(),
 });
 
 export function validate(config: Record<string, unknown>) {

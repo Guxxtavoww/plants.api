@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum SUN_EXPOSURE {
+  high
+  medium
+  low
+  none
+}
+
+model Plant {
+  plant_id        Int          @id @default(autoincrement())
+  regular_name    String       @unique
+  scientific_name String?
+  sun_exposure    SUN_EXPOSURE
+  period          Int
+  water_level     Int
+  last_hydration  DateTime?
+  next_hydration  DateTime? @default(now())
+}

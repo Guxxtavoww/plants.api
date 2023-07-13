@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 
 import { PlantsService } from './plants.service';
+import { plantSchema } from './plants.dto';
 
 @Controller('plants')
 export class PlantsController {
@@ -11,8 +12,14 @@ export class PlantsController {
     return await this.plantsService.listAllPlants();
   }
 
-  @Get('test')
-  test() {
-    return { planta: 'oi' };
+  @Post()
+  async createPlant(@Body() plantData: unknown) {
+    const parsedData = plantSchema.safeParse(plantData);
+
+    if (!parsedData.success) {
+      throw new Error('Tá errado');
+    }
+
+    return await this.createPlant(parsedData.data);
   }
 }
