@@ -2,7 +2,8 @@ version: '3.8'
 services:
   db:
     image: mysql:latest
-    restart: always
+    restart: on-failure
+    container_name: plants_db
     environment:
       MYSQL_DATABASE: 'prantinhas_db'
       # So you don't have to use root, but you can if you like
