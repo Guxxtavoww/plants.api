@@ -17,7 +17,7 @@ export class PlantsService {
 
   async createPlant(plantData: PlantType) {
     try {
-      const createdPlant = this.databaseService.plant.create({
+      const createdPlant = await this.databaseService.plant.create({
         data: {
           last_hydration: null,
           next_hydration: new Date(),
