@@ -16,11 +16,11 @@ enum SUN_EXPOSURE {
 
 model Plant {
   plant_id        Int          @id @default(autoincrement())
-  regular_name    String       @unique
+  regular_name    String
   scientific_name String?
   sun_exposure    SUN_EXPOSURE
   period          Int
   water_level     Int
   last_hydration  DateTime?
-  next_hydration  DateTime? @default(now())
+  next_hydration  DateTime?    @default(now())
 }

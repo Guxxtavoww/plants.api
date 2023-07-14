@@ -1,13 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  BadRequestException,
-} from '@nestjs/common';
+import { z } from 'zod';
+import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
+
+import { requestDataValidation } from 'src/shared/utils';
 
 import { PlantsService } from './plants.service';
-import { plantSchema } from './plants.dto';
+import { plantSchema, plantArraySchema, plantIdValidation } from './plants.dto';
 
 @Controller('plants')
 export class PlantsController {
@@ -18,14 +15,34 @@ export class PlantsController {
     return await this.plantsService.listAllPlants();
   }
 
+  @Get('/:plant_id')
+  async getPlant(@Param('plant_id') plant_id: string) {
+    const parsedPlantId = requestDataValidation(
+      plant_id,
+      plantIdValidation as z.Schema,
+    );
+
+    return await this.plantsService.getPlant(parsedPlantId);
+  }
+
   @Post()
   async createPlant(@Body() plantData: unknown) {
-    const parsedData = plantSchema.safeParse(plantData);
+    const parsedData = requestDataValidation(plantData, plantSchema);
 
-    if (!parsedData.success) {
-      throw new BadRequestException('Failed parsing request body');
-    }
+    return await this.plantsService.createPlant(parsedData);
+  }
 
-    return await this.plantsService.createPlant(parsedData.data);
+  @Post('create-many')
+  async createManyPlants(@Body() plantData: unknown) {
+    const parsedData = requestDataValidation(plantData, plantArraySchema);
+
+    return await this.plantsService.createManyPlants(parsedData);
+  }
+
+  @Put('/:plant_id')
+  async updatePlant(@Body() plantData: unknown) {
+    const parsedData = requestDataValidation(plantData, plantSchema);
+
+    return await this.plantsService.editPlant(parsedData);
   }
 }
