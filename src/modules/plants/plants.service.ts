@@ -41,10 +41,14 @@ export class PlantsService {
 
   async createPlant(plantData: PlantType) {
     try {
+      const next_hydration = new Date(Date.now());
+
+      next_hydration.setDate(next_hydration.getDate() + 15);
+
       const createdPlant = await this.databaseService.plant.create({
         data: {
           last_hydration: null,
-          next_hydration: new Date(),
+          next_hydration,
           period: plantData.period,
           regular_name: plantData.regular_name,
           sun_exposure: plantData.sun_exposure,
@@ -53,7 +57,7 @@ export class PlantsService {
         },
       });
 
-      const parsedData = plantSchema.parse(createdPlant);
+      const parsedData = plantResponseSchema.parse(createdPlant);
 
       return parsedData;
     } catch (err) {
@@ -63,10 +67,14 @@ export class PlantsService {
 
   async createManyPlants(plantsData: PlantType[]) {
     try {
+      const next_hydration = new Date(Date.now());
+
+      next_hydration.setDate(next_hydration.getDate() + 15);
+
       await this.databaseService.plant.createMany({
         data: plantsData.map((plant) => ({
           last_hydration: null,
-          next_hydration: new Date(),
+          next_hydration,
           period: plant.period,
           regular_name: plant.regular_name,
           sun_exposure: plant.sun_exposure,
