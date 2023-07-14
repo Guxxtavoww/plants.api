@@ -1,5 +1,15 @@
 import { z } from 'zod';
-import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 
 import { requestDataValidation } from 'src/shared/utils';
 
@@ -17,7 +27,7 @@ export class PlantsController {
 
   @Get('/:plant_id')
   async getPlant(@Param('plant_id') plant_id: string) {
-    const parsedPlantId = requestDataValidation(
+    const parsedPlantId: number = requestDataValidation(
       plant_id,
       plantIdValidation as z.Schema,
     );
@@ -39,10 +49,21 @@ export class PlantsController {
     return await this.plantsService.createManyPlants(parsedData);
   }
 
-  @Put('/:plant_id')
+  @Put()
   async updatePlant(@Body() plantData: unknown) {
     const parsedData = requestDataValidation(plantData, plantSchema);
 
     return await this.plantsService.editPlant(parsedData);
+  }
+
+  @Delete('/:plant_id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deletePlant(@Param('plant_id') plant_id: string) {
+    const parsedPlantId: number = requestDataValidation(
+      plant_id,
+      plantIdValidation as z.Schema,
+    );
+
+    return await this.plantsService.deletePlant(parsedPlantId);
   }
 }

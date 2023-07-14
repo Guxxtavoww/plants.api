@@ -101,4 +101,18 @@ export class PlantsService {
       throw new InternalServerErrorException(`Failed updating plant, ${err}`);
     }
   }
+
+  async deletePlant(plant_id: number): Promise<void> {
+    try {
+      await this.databaseService.plant.delete({
+        where: {
+          plant_id,
+        },
+      });
+
+      return Promise.resolve();
+    } catch (error) {
+      throw new InternalServerErrorException(`Failed updating plant, ${error}`);
+    }
+  }
 }
