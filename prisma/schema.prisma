@@ -17,10 +17,22 @@ enum SUN_EXPOSURE {
 model Plant {
   plant_id        Int          @id @default(autoincrement())
   regular_name    String
+  owner           User?        @relation(fields: [owner_id], references: [user_id])
+  owner_id        Int
   scientific_name String?
   sun_exposure    SUN_EXPOSURE
   period          Int
   water_level     Int
   last_hydration  DateTime?
   next_hydration  DateTime?    @default(now())
+}
+
+model User {
+  user_id     Int       @id @unique
+  user_name   String?   @unique
+  user_email  String
+  password    String
+  user_plants Plant[]
+  profile_pic String?
+  createdAt   DateTime? @default(now())
 }
