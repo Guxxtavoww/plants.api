@@ -27,10 +27,7 @@ export class PlantsController {
 
   @Get('/:plant_id')
   async getPlant(@Param('plant_id') plant_id: string) {
-    const parsedPlantId: number = requestDataValidation(
-      plant_id,
-      plantIdValidation as z.Schema,
-    );
+    const parsedPlantId = requestDataValidation(plant_id, plantIdValidation);
 
     return await this.plantsService.getPlant(parsedPlantId);
   }

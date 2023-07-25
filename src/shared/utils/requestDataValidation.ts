@@ -1,10 +1,11 @@
 import { BadRequestException } from '@nestjs/common';
-import { z } from 'zod';
+import { ZodSchema, ZodTypeDef } from 'zod';
 
-export function requestDataValidation<T = number>(
-  reqData: unknown,
-  zodSchema: z.Schema<T>,
-) {
+export function requestDataValidation<
+  TOutput = any,
+  TDef extends ZodTypeDef = ZodTypeDef,
+  TInput = TOutput,
+>(reqData: unknown, zodSchema: ZodSchema<TOutput, TDef, TInput>) {
   const parsedRequestData = zodSchema.safeParse(reqData);
 
   if (!parsedRequestData.success) {
