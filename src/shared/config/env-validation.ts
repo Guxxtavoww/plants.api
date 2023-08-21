@@ -32,4 +32,6 @@ export function validate(config: Record<string, unknown>) {
   return result.data;
 }
 
+export const ENV_VARS = envSchema.parse(process.env);
+
 export type EnvType = z.infer<typeof envSchema>;
