@@ -7,6 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model users_table {
+  user_id         Int            @id @unique @default(autoincrement())
+  user_name       String?
+  email           String
+  password        String         @db.VarChar(18)
+  profile_pic_url String?
+  created_at      DateTime       @default(now())
+  updated_at      DateTime?
+  Plant           plants_table[]
+}
+
 enum SUN_EXPOSURE {
   high
   medium
@@ -14,10 +25,10 @@ enum SUN_EXPOSURE {
   none
 }
 
-model Plant {
+model plants_table {
   plant_id        Int          @id @default(autoincrement())
   regular_name    String
-  owner           User?        @relation(fields: [owner_id], references: [user_id])
+  owner           users_table? @relation(fields: [owner_id], references: [user_id])
   owner_id        Int
   scientific_name String?
   sun_exposure    SUN_EXPOSURE
@@ -25,14 +36,4 @@ model Plant {
   water_level     Int
   last_hydration  DateTime?
   next_hydration  DateTime?    @default(now())
-}
-
-model User {
-  user_id     Int       @id @unique
-  user_name   String?   @unique
-  user_email  String
-  password    String
-  user_plants Plant[]
-  profile_pic String?
-  createdAt   DateTime? @default(now())
 }

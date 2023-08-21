@@ -5,10 +5,10 @@ services:
     restart: on-failure
     container_name: plants_db
     environment:
-      MYSQL_DATABASE: 'prantinhas_db'
+      MYSQL_DATABASE: 'plants_db'
       MYSQL_USER: 'pratinhas'
-      MYSQL_PASSWORD: 'prantinhas'
-      MYSQL_ROOT_PASSWORD: 'prantinhas_root'
+      MYSQL_PASSWORD: 'plants'
+      MYSQL_ROOT_PASSWORD: 'plants_root'
     ports:
       - '3306:3306'
     expose:

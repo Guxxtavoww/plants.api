@@ -15,8 +15,10 @@ export const envSchema = z.object({
   DB_PORT: z.string().default('3306'),
   DB_USER: z.string().default(userName),
   DB_PWD: z.string(),
-  DB_NAME: z.string().default('prantinhas_db'),
-  DATABASE_URL: z.string(),
+  DB_NAME: z.string().default('plants_db'),
+  DATABASE_URL: z.string().default('pratinhas@localhost:3306'),
+  JWT_SECRET: z.string(),
+  JWT_REFRESH_EXPIRES_IN: z.string().default('30d'),
 });
 
 export function validate(config: Record<string, unknown>) {
@@ -32,6 +34,6 @@ export function validate(config: Record<string, unknown>) {
   return result.data;
 }
 
-export const ENV_VARS = envSchema.parse(process.env);
-
 export type EnvType = z.infer<typeof envSchema>;
+
+export const ENV_VARIABLES = envSchema.parse(process.env);

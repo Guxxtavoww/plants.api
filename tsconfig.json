@@ -17,16 +17,6 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "src/*": [
-        "src/*"
-      ]
-    },
-  },
-  "include": [
-    "src/**/*",
-  ],
-  "types": [
-    "./src/env.d.ts"
-  ]
+    "noUncheckedIndexedAccess": true,
+  }
 }
